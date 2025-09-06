@@ -3,6 +3,7 @@ package src.myutils;
 public class Node<T> {
     private T element;
     private Node<T> next;
+    // TODO: Incluir cor;
 
     public Node(T element) {
         this.element = element;
