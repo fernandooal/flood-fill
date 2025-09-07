@@ -11,7 +11,7 @@ public class FloodFill {
     // metodo identificar vizinhos (fazendo validações)
     // metodo para salvar imagens a cada 1k pixel
 
-    // atributos do FloodFill
+    // atributos do FloodFill (ok!)
     private BufferedImage image;
     private Stack<Point> stack;
     private Color originalColor;
@@ -23,7 +23,7 @@ public class FloodFill {
     private String outputPath;
     private int imageNumber;    // para numerar as imagens salvas
 
-    // classe para representar um ponto
+    // classe para representar um ponto (ok!)
     public static class Point {
         public int x, y;
 
@@ -33,7 +33,7 @@ public class FloodFill {
         }
     }
 
-    // construtor
+    // construtor (ok!)
     public  FloodFill(BufferedImage image, String outputPath, int saveInterval) {
         this.image = image;
         this.stack = new Stack<>();
@@ -47,14 +47,14 @@ public class FloodFill {
 
     // métodos principais
     public void paint(int x, int y, Color newColor) {
-        // verificar coordenadas na imagem
+        // verificar coordenadas na imagem (ok!)
         if (!isWithinBounds(x, y)) return;
 
-        // atribuir as cores
+        // atribuir as cores (ok!)
         this.originalColor = FileHandler.getPixelColor(image, x, y);
         this.newColor = newColor;
 
-        // lógica da pintura
+        // lógica da pintura (ok!)
         if (originalColor.equals(newColor)) return;
         stack.push(new Point(x, y));
         //executeFloodFill();
@@ -83,7 +83,7 @@ public class FloodFill {
 
     private void saveTemporaryImage() {
         // TODO: Salvar imagem atual com nome sequencial
-        // Ex: floodfill_001.png, floodfill_002.png, etc.
+        // Exemplo: floodfill_001.png, floodfill_002.png, etc.
         imageNumber++;
     }
 
