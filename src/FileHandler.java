@@ -24,9 +24,13 @@ public class FileHandler {
         }
     }
 
-    public static Color getPixelColor(BufferedImage img, int x, int y) { return new Color(img.getRGB(x, y), true); }
+    public static Color getPixelColor(BufferedImage img, int x, int y) {
+        return new Color(img.getRGB(x, y), true);
+    }
 
-    public static void setPixelColor(BufferedImage img, int x, int y, Color color) { img.setRGB(x, y, color.getRGB()); }
+    public static void setPixelColor(BufferedImage img, int x, int y, Color color) {
+        img.setRGB(x, y, color.getRGB());
+    }
 
     public static void renderImages(String path){
         // TODO: Implementar renderização das imagens com Graphics 2D
