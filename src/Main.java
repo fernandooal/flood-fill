@@ -15,6 +15,6 @@ public class Main {
         // FloodFill.paint(img, x, y, new Color(255, 0, 0, 255)) # várias chamadas;
 
 
-        // TODO: Implementar o Graphics 2d (fileHanlder) que vai gerar o gif
+        // TODO: Implementar o Graphics 2d (fileHandler) que vai gerar o gif
     }
 }

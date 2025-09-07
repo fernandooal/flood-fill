@@ -19,11 +19,11 @@ public class FloodFill {
     private int width;
     private int height;
     private int pixelCounter;
-    private int saveInterval;
+    private int saveInterval;   // a cada quantos pixels salvar a imagem
     private String outputPath;
-    private int imageNumber;
+    private int imageNumber;    // para numerar as imagens salvas
 
-    // Classe para representar um ponto
+    // classe para representar um ponto
     public static class Point {
         public int x, y;
 
