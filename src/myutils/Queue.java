@@ -1,11 +1,11 @@
 package src.myutils;
 
-public class Fila<T> {
+public class Queue<T> {
     private Node<T> first;
     private Node<T> last;
     private int size;
 
-    public Fila() {
+    public Queue() {
         first = null;
         last = null;
         size = 0;

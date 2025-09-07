@@ -1,10 +1,10 @@
 package src.myutils;
 
-public class Pilha<T> {
+public class Stack<T> {
     private Node<T> head;
     private int size;
 
-    public Pilha() {
+    public Stack() {
         this.head = null;
         this.size = 0;
     }
