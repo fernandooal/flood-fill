@@ -6,11 +6,6 @@ import java.awt.Color;
 
 
 public class FloodFill {
-    // TODO: Implementar classe Fill
-    // metodo paint (implementa o loop + pilha/fila)
-    // metodo identificar vizinhos (fazendo validações)
-    // metodo para salvar imagens a cada 1k pixel
-
     // atributos do FloodFill (ok!)
     private BufferedImage image;
     private Stack<Point> stack;
@@ -40,7 +35,7 @@ public class FloodFill {
         this.height = image.getHeight();
         this.width = image.getWidth();
         this.pixelCounter = 0;
-        this.saveInterval = saveInterval; // exemplo: testar com 1000 pixels
+        this.saveInterval = saveInterval; // teste com 1000 pixels (ok!)
         this.outputPath = outputPath;
         this.imageNumber = 0;
     }
@@ -54,7 +49,7 @@ public class FloodFill {
         this.originalColor = FileHandler.getPixelColor(image, x, y);
         this.newColor = newColor;
 
-        // se a cor original for igual à nova cor, não faz nada
+        // se a cor original for igual à nova cor, não deve faz nada
         if (originalColor.equals(newColor)) return;
 
         // resetar os contadores para nova pintura
