@@ -54,37 +54,86 @@ public class FloodFill {
         this.originalColor = FileHandler.getPixelColor(image, x, y);
         this.newColor = newColor;
 
-        // lógica da pintura (ok!)
+        // se a cor original for igual à nova cor, não faz nada
         if (originalColor.equals(newColor)) return;
+
+        // resetar os contadores para nova pintura
+        this.pixelCounter = 0;
+        this.imageNumber = 1;
+
         stack.push(new Point(x, y));
-        //executeFloodFill();
+        executeFloodFill();
     }
 
     private void executeFloodFill() {
-        // TODO: Implementar o algoritmo principal
-        // while (!stack.isEmpty()) {
-        //     Point point = stack.pop();
-        //     // Verificar se já foi pintado, se está dentro dos limites, etc.
-        //     // Pintar o pixel
-        //     // Adicionar vizinhos válidos na pilha
-        //     // Incrementar contador e salvar imagem se necessário
-        // }
+        System.out.println("Iniciando FloodFill");
+        while (!stack.isEmpty()) {
+            Point point = stack.pop();
+            if (!isValidPoint(point.x, point.y)) {
+                continue;
+            }
+
+            // pintar o pixel atual
+            FileHandler.setPixelColor(image, point.x, point.y, newColor);
+            pixelCounter++;
+
+            // adicionar vizinhos válidos na pilha
+            addNeighbors(point.x, point.y);
+
+            // salvar imagem temporária a cada intervalo definido
+            if (pixelCounter % saveInterval == 0) {
+                saveTemporaryImage();
+                System.out.println("Pixels pintados: " + pixelCounter + " - Imagem salva");
+            }
+        }
+        // salvar imagem final se houver pixels restantes
+        if (pixelCounter % saveInterval != 0) {
+            saveTemporaryImage();
+        }
+        System.out.println("FloodFill concluído. Total de pixels pintados: " + pixelCounter);
     }
 
     private boolean isValidPoint(int x, int y) {
-        // TODO: Verificar se o ponto está dentro dos limites e se tem a cor original
-        return false; // Exemplo
+        if (!isWithinBounds(x, y)) return false;
+
+        // verificar se o pixel ainda tem a cor original (ainda não foi pintado)
+        Color currentColor = FileHandler.getPixelColor(image, x, y);
+        return currentColor.equals(originalColor);
     }
 
     private void addNeighbors(int x, int y) {
-        // TODO: Adicionar os 4 vizinhos na pilha se forem válidos
-        // Vizinhos: (-1,0), (0,1), (1,0), (0,-1)
+        // vizinhos: (-1,0), (0,1), (1,0), (0,-1)
+        // vizinho à esquerda: (-1, 0)
+        if (isValidPoint(x - 1, y)) {
+            stack.push(new Point(x - 1, y));
+        }
+
+        // vizinho acima: (0, -1)
+        if (isValidPoint(x, y - 1)) {
+            stack.push(new Point(x, y - 1));
+        }
+
+        // vizinho à direita: (1, 0)
+        if (isValidPoint(x + 1, y)) {
+            stack.push(new Point(x + 1, y));
+        }
+
+        // vizinho abaixo: (0, 1)
+        if (isValidPoint(x, y + 1)) {
+            stack.push(new Point(x, y + 1));
+        }
     }
 
     private void saveTemporaryImage() {
-        // TODO: Salvar imagem atual com nome sequencial
-        // Exemplo: floodfill_001.png, floodfill_002.png, etc.
-        imageNumber++;
+        // exemplo: floodfill_001.png, floodfill_002.png, etc.
+        try {
+            String fileName = String.format("floodfill_%03d.png", imageNumber);
+            String fullPath = outputPath + fileName;
+            FileHandler.saveImage(image, fullPath);
+            imageNumber++;
+        } catch (Exception error) {
+            System.out.println("Erro ao salvar imagem temporária: " + error.getMessage());
+        }
     }
 
     // métodos auxiliares

@@ -23,16 +23,15 @@ public class Stack<T> {
 
     public T pop() {
         if(size == 0){
-            throw new IndexOutOfBoundsException();
-        } else{
-            head = head.getNext();
-            size--;
-
-            if(size == 0){
-                return null;
-            }
-            return head.getElement();
+            throw new IndexOutOfBoundsException("Pilha vazia!");
         }
+
+        T elementRemoved = head.getElement();
+
+        head = head.getNext();
+        size--;
+
+        return elementRemoved;
     }
 
     public void clear(){

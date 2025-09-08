@@ -18,7 +18,7 @@ public class FileHandler {
 
     public static void saveImage(BufferedImage img, String path){
         try {
-            ImageIO.write(img, "png", new File("assets/mario_example.png"));
+            ImageIO.write(img, "png", new File(path));
         } catch (IOException e) {
             System.out.println("Erro salvando imagem!");
         }
