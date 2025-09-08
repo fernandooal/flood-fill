@@ -27,17 +27,18 @@ public class Queue<T> {
     public T dequeue() {
         if (first == null) {
             throw new IndexOutOfBoundsException();
-        } else {
-            if(size > 1){
-                first = first.getNext();
-                size--;
-                return first.getElement();
-            } else{
-                first = null;
-                size--;
-                return null;
-            }
         }
+
+        T elementRemoved = first.getElement();
+
+        first = first.getNext();
+        size--;
+
+        if (first == null) {
+            last = null;
+        }
+
+        return elementRemoved;
     }
 
     public void clear() {
