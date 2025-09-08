@@ -1,12 +1,15 @@
-package src;
+package test;
+
+import src.FileHandler;
+import src.floodfill.FloodFillQueue;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class FloodFillCompleteTest {
+public class FloodFillCompleteTestQueue {
     public static void main(String[] args) {
-        System.out.println("=== TESTE COMPLETO DO FLOODFILL ===\n");
+        System.out.println("=== TESTE COMPLETO DO FLOODFILL QUEUE ===\n");
 
         // carregar imagem
         BufferedImage image = FileHandler.getImage("assets/original_img/mario.png");
@@ -23,7 +26,7 @@ public class FloodFillCompleteTest {
         }
 
         // configurar FloodFill
-        FloodFill floodFill = new FloodFill(image, "assets/output/", 1000);
+        FloodFillQueue floodFillQueue = new FloodFillQueue(image, "assets/output/", 1000);
 
         // escolher um ponto para testar
         // neste exemplo usei o centro da imagem
@@ -44,7 +47,7 @@ public class FloodFillCompleteTest {
 
         // pintar de vermelho
         long startTime = System.currentTimeMillis();
-        floodFill.paint(x, y, new Color(255, 0, 0));
+        floodFillQueue.paint(x, y, new Color(255, 0, 0));
         long endTime = System.currentTimeMillis();
 
         System.out.println("\nFloodFill concluído");

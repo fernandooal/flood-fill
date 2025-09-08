@@ -1,11 +1,15 @@
 package src;
 
+import src.floodfill.FloodFill;
+import src.floodfill.FloodFillStack;
+import src.floodfill.Point;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-public class FloodFillTest {
+public class FloodFillTestStack {
     public static void main(String[] args) {
-        System.out.println("=== TESTE DA CLASSE FLOODFILL ===\n");
+        System.out.println("=== TESTE DA CLASSE FLOODFILL STACK ===\n");
 
         // carregamento de imagem
         System.out.println("1. Testando carregamento da imagem");
@@ -23,7 +27,7 @@ public class FloodFillTest {
         // teste do construtor FloodFill
         System.out.println("\n2. Testando construtor FloodFill");
         try {
-            FloodFill floodFill = new FloodFill(img, "output/", 1000);
+            FloodFillStack floodFill = new FloodFillStack(img, "output/", 1000);
             System.out.println("   Construtor funcionou corretamente!");
             System.out.println("   Intervalo de salvamento: 1000 pixels");
             System.out.println("   Caminho de saída: output/");
@@ -34,7 +38,7 @@ public class FloodFillTest {
 
         // teste das validações básicas
         System.out.println("\n3. Testando validações de coordenadas");
-        FloodFill floodFill = new FloodFill(img, "output/", 1000);
+        FloodFillStack floodFill = new FloodFillStack(img, "output/", 1000);
 
         // teste com coordenadas válidas
         int x = img.getWidth() / 2;
@@ -94,8 +98,8 @@ public class FloodFillTest {
         // teste da classe Point
         System.out.println("\n7. Testando classe Point...");
         try {
-            FloodFill.Point newPoint = new FloodFill.Point(10, 20);
-            System.out.println("   Classe Point criada: (" + newPoint.x + ", " + newPoint.y + ")");
+            Point newPoint = new Point(10, 20);
+            System.out.println("   Classe Point criada!");
         } catch (Exception e) {
             System.out.println("   ERRO na classe Point: " + e.getMessage());
         }
