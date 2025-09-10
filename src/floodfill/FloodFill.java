@@ -38,7 +38,6 @@ public abstract class FloodFill {
 
         // resetar os contadores para nova pintura
         this.pixelCounter = 0;
-        this.imageNumber = 1;
     }
 
     abstract void executeFloodFill();

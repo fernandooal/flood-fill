@@ -1,5 +1,6 @@
 package src;
 
+import src.floodfill.FloodFill;
 import src.floodfill.FloodFillStack;
 import src.floodfill.FloodFillQueue;
 
@@ -11,24 +12,30 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.println("===============================================");
         System.out.println("        ALGORITMO FLOOD FILL");
         System.out.println("===============================================");
 
         // Carregar imagem
-        BufferedImage img = FileHandler.getImage("assets/original_img/mario.png");
-        if (img == null) {
+        BufferedImage img;
+        try {
+            img = setup("assets/original_img/mario.png");
+        } catch (IOException e) {
             System.out.println("ERRO: Não foi possível carregar a imagem");
             System.out.println("Verifique se o arquivo 'assets/original_img/mario.png' existe.");
-            return;
+            throw e;
         }
 
-        final int width = img.getWidth();
-        final int height = img.getHeight();
+        menu(img);
+    }
 
-        System.out.println("Imagem carregada: " + width + "x" + height + " pixels");
+    private static BufferedImage setup(String path) throws IOException {
+        BufferedImage img = FileHandler.getImage(path);
+        if (img == null) {
+            throw new IOException();
+        }
+
+        System.out.println("Imagem carregada: " + img.getWidth() + "x" + img.getHeight() + " pixels");
 
         // Criar diretório de saída
         File outputDir = new File("output");
@@ -36,14 +43,17 @@ public class Main {
             outputDir.mkdirs();
             System.out.println("Diretório 'output' criado.");
         }
+        return img;
+    }
 
-        // Menu principal
+    private static void menu(BufferedImage img) {
+        Scanner scanner = new Scanner(System.in);
+
         boolean keepRunning = true;
         while (keepRunning) {
             System.out.println("\n================================ MENU PRINCIPAL ================================");
             System.out.println("1 - Executar FloodFill com PILHA (Stack)");
             System.out.println("2 - Executar FloodFill com FILA (Queue)");
-            // System.out.println("3 - Comparar ambos (Stack vs Queue)");
             System.out.println("3 - Apenas renderizar animação (se já existem imagens)");
             System.out.println("0 - Sair");
             System.out.print("\nEscolha uma opção: ");
@@ -52,14 +62,9 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    executeFloodFillStack(img, width, height);
-                    break;
                 case 2:
-                    executeFloodFillQueue(img, width, height);
+                    floodFill(img, opcao);
                     break;
-                /* case 3:
-                    compareBoth(img, width, height);
-                    break; */
                 case 3:
                     FileHandler.renderImages("output/");
                     break;
@@ -75,97 +80,36 @@ public class Main {
         scanner.close();
     }
 
-    private static void executeFloodFillStack(BufferedImage img, int width, int height) {
-        System.out.println("\n=== EXECUTANDO COM PILHA (STACK) ===");
+    private static void floodFill(BufferedImage img, int opcao) {
+        System.out.println("\n=== EXECUTANDO MARIO COLOR MAP ===");
 
-        // Criar cópia da imagem
-        BufferedImage imageCopy = createImageCopy(img);
-
-        // Configurações
-        int x = width / 2;
-        int y = height / 2;
-
-        System.out.println("Ponto inicial: (" + x + ", " + y + ")");
-        System.out.println("Cor nova: Vermelho");
-
-        // Executar FloodFill
-        FloodFillStack floodFill = new FloodFillStack(imageCopy, "output/", 500);
-
-        long startTime = System.currentTimeMillis();
-        floodFill.paint(x, y, new Color(255, 0, 0)); // Vermelho
-        long endTime = System.currentTimeMillis();
-
-        System.out.println("Tempo de execução: " + (endTime - startTime) + "ms");
-
-        // Salvar resultado final
-        FileHandler.saveImage(imageCopy, "output/resultado_stack.png");
-        System.out.println("Resultado salvo: output/resultado_stack.png");
-
-        // Renderizar animação
-        System.out.println("\nIniciando renderização da animação...");
-        FileHandler.renderImages("output/");
-    }
-
-    private static void executeFloodFillQueue(BufferedImage img, int width, int height) {
-        System.out.println("\n=== EXECUTANDO COM FILA (QUEUE) ===");
-
-        // Criar cópia da imagem
-        BufferedImage imageCopy = createImageCopy(img);
-
-        // Configurações
-        int x = width / 2;
-        int y = height / 2;
-
-        System.out.println("Ponto inicial: (" + x + ", " + y + ")");
-        System.out.println("Cor nova: Verde");
-
-        // Executar FloodFill
-        FloodFillQueue floodFill = new FloodFillQueue(imageCopy, "output/", 500);
-
-        long startTime = System.currentTimeMillis();
-        floodFill.paint(x, y, new Color(0, 255, 0)); // Verde
-        long endTime = System.currentTimeMillis();
-
-        System.out.println("Tempo de execução: " + (endTime - startTime) + "ms");
-
-        // Salvar resultado final
-        FileHandler.saveImage(imageCopy, "output/resultado_queue.png");
-        System.out.println("Resultado salvo: output/resultado_queue.png");
-
-        // Renderizar animação
-        System.out.println("\nIniciando renderização da animação...");
-        FileHandler.renderImages("output/");
-    }
-
-    private static void compareBoth(BufferedImage img, int width, int height) {
-        System.out.println("\n=== COMPARAÇÃO: PILHA vs FILA ===");
-
-        System.out.println("\n--- Executando com PILHA ---");
-        executeFloodFillStack(img, width, height);
-
-        // Pausa entre execuções
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+        // Criar instância do FloodFill
+        FloodFill floodFill;
+        if (opcao == 1) {
+            floodFill = new FloodFillStack(img, "output/", 500);
+        } else {
+            floodFill = new FloodFillQueue(img, "output/", 500);
         }
 
-        System.out.println("\n--- Executando com FILA ---");
-        executeFloodFillQueue(img, width, height);
+        long startTime = System.currentTimeMillis();
+        // Percorrer todas as áreas do Mario
+        for (MarioColorMap.ColorArea area : MarioColorMap.getMarioAreas()) {
+            System.out.println("\nColorindo: " + area.description);
+            System.out.println("Ponto inicial: (" + area.x + ", " + area.y + ")");
+            System.out.println("Cor original esperada: " + area.originalColor);
+            System.out.println("Nova cor: " + area.newColor);
 
-        System.out.println("\n=== COMPARAÇÃO CONCLUÍDA ===");
-        System.out.println("Verifique os arquivos:");
-        System.out.println("- resultado_stack.png (vermelho)");
-        System.out.println("- resultado_queue.png (verde)");
-    }
+            floodFill.paint(area.x, area.y, area.newColor);
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println("\nTempo total de execução: " + (endTime - startTime) + "ms");
 
-    private static BufferedImage createImageCopy(BufferedImage original) {
-        BufferedImage copy = new BufferedImage(
-                original.getWidth(),
-                original.getHeight(),
-                original.getType()
-        );
-        copy.getGraphics().drawImage(original, 0, 0, null);
-        return copy;
+        // Salvar resultado final
+        FileHandler.saveImage(img, "output/resultado_mario.png");
+        System.out.println("Resultado salvo: output/resultado_mario.png");
+
+        // Renderizar animação
+        System.out.println("\nIniciando renderização da animação...");
+        FileHandler.renderImages("output/");
     }
 }
