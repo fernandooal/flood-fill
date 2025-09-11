@@ -62,8 +62,9 @@ public class Main {
 
             switch (opcao) {
                 case 1:
+                    floodFill(img, new FloodFillStack(img, "output/", 1000));
                 case 2:
-                    floodFill(img, opcao);
+                    floodFill(img, new FloodFillQueue(img, "output/", 1000));
                     break;
                 case 3:
                     FileHandler.renderImages("output/");
@@ -80,16 +81,8 @@ public class Main {
         scanner.close();
     }
 
-    private static void floodFill(BufferedImage img, int opcao) {
+    private static void floodFill(BufferedImage img, FloodFill floodFill) {
         System.out.println("\n=== EXECUTANDO MARIO COLOR MAP ===");
-
-        // Criar instância do FloodFill
-        FloodFill floodFill;
-        if (opcao == 1) {
-            floodFill = new FloodFillStack(img, "output/", 500);
-        } else {
-            floodFill = new FloodFillQueue(img, "output/", 500);
-        }
 
         long startTime = System.currentTimeMillis();
         // Percorrer todas as áreas do Mario
