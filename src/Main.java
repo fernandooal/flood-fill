@@ -63,6 +63,7 @@ public class Main {
             switch (opcao) {
                 case 1:
                     floodFill(img, new FloodFillStack(img, "output/", 1000));
+                    break;
                 case 2:
                     floodFill(img, new FloodFillQueue(img, "output/", 1000));
                     break;
